@@ -43,8 +43,12 @@ namespace Test_detection_result
             LoadData();
         }
 
+        /// <summary>
+        /// 保存数据
+        /// </summary>
         private void SaveData()
         {
+            //遍历userControl2s，为userControl2s的每一个元素转换成 UserControl2Data 对象
             var data = userControl2s.Select(control => new UserControl2Data
             {
                 Name = control.name,
@@ -52,19 +56,22 @@ namespace Test_detection_result
                 {
                     Name = item.name,
                     Value = item.Value
-                }).ToList()
-            }).ToList();
+                }).ToList() // 将 Select 方法返回的结果转换为 List<UserControl3Data>
+            }).ToList(); 
 
             var jsonData = JsonConvert.SerializeObject(data, Formatting.Indented);
             File.WriteAllText("C:\\Users\\YFGK\\Desktop\\data.json", jsonData);
         }
 
+        /// <summary>
+        /// 加载数据
+        /// </summary>
         private void LoadData()
         {
             if (File.Exists("C:\\Users\\YFGK\\Desktop\\data.json"))
             {
                 var jsonData = File.ReadAllText("C:\\Users\\YFGK\\Desktop\\data.json");
-                //List<UserControl2>
+                // List<UserControl2Data>
                 var data = JsonConvert.DeserializeObject<List<UserControl2Data>>(jsonData);
 
                 // 清空现有的控件
@@ -81,6 +88,7 @@ namespace Test_detection_result
                     int index = 0;
                     UserControl2 control = new UserControl2(item.Name);
 
+                    // 先往UserControl2中添加UserControl3
                     foreach (UserControl3Data subItem in item.Items)
                     {
                         control.AddItemByName(subItem.Name);
@@ -88,6 +96,7 @@ namespace Test_detection_result
                         index++;
                     }
 
+                    // 再往Form1中添加UserControl2
                     AddControlToPanel(control);
                     userControl2s.Add(control);
                 }
@@ -188,9 +197,6 @@ namespace Test_detection_result
             Count++;
         }
 
-        /// <summary>
-        /// 移除一个名为processName的流程结果
-        /// </summary>
         /// <summary>
         /// 移除一个名为processName的流程结果，并重新排列剩下的控件
         /// </summary>

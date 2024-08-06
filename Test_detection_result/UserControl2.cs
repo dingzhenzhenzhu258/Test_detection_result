@@ -22,7 +22,6 @@ namespace Test_detection_result
         public UserControl2()
         {
             InitializeComponent();
-
         }
 
         public UserControl2(string name)
@@ -80,29 +79,10 @@ namespace Test_detection_result
             this.name = this.label1.Text = name;
         }
 
-        public void AddItem(string text, string value)
-        {
-            UserControl3 con = new UserControl3(text, value,Id2, Color.Red);
-            con.Dock = DockStyle.Top;
-            panel1.Controls.Add(con);
-            panel1.Controls.SetChildIndex(con, 0); // 将新添加的控件放在最下面
-            _items.Add(con);
-            Id2++;
-        }
-
-
-        public void SetValue(string sn, string value)
-        {
-            foreach (UserControl3 item in _items)
-            {
-                if (item.name == sn)
-                {
-                    item.SetValue(value);
-                    break;
-                }
-            }
-        }
-
+        /// <summary>
+        /// 添加检查项
+        /// </summary>
+        /// <param name="name"></param>
         public void AddItemByName(string name)
         {
             if (_items.Any(item => item.name == name))
@@ -128,10 +108,15 @@ namespace Test_detection_result
             {
                 _items[i].id = i + 1;
                 _items[i].SetLabel(i + 1);
-                panel1.Controls.SetChildIndex(_items[i], _items.Count - 1 - i);
+                panel1.Controls.SetChildIndex(_items[i], _items.Count - 1 - i); //将每个元素的位置调整为倒序排列。
             }
         }
 
+        /// <summary>
+        /// 移除检查项
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public bool RemoveItemByName(string name)
         {
             UserControl3 controlToRemove = null;
@@ -158,6 +143,9 @@ namespace Test_detection_result
             return false;
         }
 
+        /// <summary>
+        /// 计算值
+        /// </summary>
         public void Computation()
         {
             int total = 0;

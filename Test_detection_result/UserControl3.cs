@@ -44,11 +44,6 @@ namespace Test_detection_result
             name = text;
         }
 
-        public void SetValue(string value)
-        {
-            Value = int.Parse(value); // 使用属性来设置值
-        }
-
         public void SetLabelColor(Color color)
         {
             label0.ForeColor = color;
